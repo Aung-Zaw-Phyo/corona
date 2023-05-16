@@ -17,8 +17,10 @@
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('backend/assets/images/favicon.png') }}" />
+
+    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
   </head>
-  <body>
+  <body class="sidebar-icon-only">
 
 
 
@@ -84,12 +86,32 @@
             <span class="nav-link">Navigation</span>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="index.html">
+            <a class="nav-link" href="/admin">
               <span class="menu-icon">
                 {{-- <i class="mdi mdi-speedometer"></i> --}}
                 <i class="mdi mdi-home"></i>
               </span>
               <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="/admin/customers">
+              <span class="menu-icon">
+                {{-- <i class="mdi mdi-speedometer"></i> --}}
+                <i class="mdi mdi-home"></i>
+              </span>
+              <span class="menu-title">Customers</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items">
+            <a class="nav-link" href="/admin/products">
+              <span class="menu-icon">
+                {{-- <i class="mdi mdi-speedometer"></i> --}}
+                <i class="mdi mdi-home"></i>
+              </span>
+              <span class="menu-title">Products</span>
             </a>
           </li>
 
@@ -190,14 +212,14 @@
               <span class="mdi mdi-menu"></span>
             </button>
             <ul class="navbar-nav w-100">
-              <li class="nav-item w-100">
+              {{-- <li class="nav-item w-100">
                 <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
                   <input type="text" class="form-control" placeholder="Search products">
                 </form>
-              </li>
+              </li> --}}
             </ul>
             <ul class="navbar-nav navbar-nav-right">
-              <li class="nav-item dropdown d-none d-lg-block">
+              {{-- <li class="nav-item dropdown d-none d-lg-block">
                 <a class="nav-link btn btn-success create-new-button" id="createbuttonDropdown" data-toggle="dropdown" aria-expanded="false" href="#">+ Create New Project</a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="createbuttonDropdown">
                   <h6 class="p-3 mb-0">Projects</h6>
@@ -237,12 +259,12 @@
                   <div class="dropdown-divider"></div>
                   <p class="p-3 mb-0 text-center">See all projects</p>
                 </div>
-              </li>
-              <li class="nav-item nav-settings d-none d-lg-block">
+              </li> --}}
+              {{-- <li class="nav-item nav-settings d-none d-lg-block">
                 <a class="nav-link" href="#">
                   <i class="mdi mdi-view-grid"></i>
                 </a>
-              </li>
+              </li> --}}
               <li class="nav-item dropdown border-left">
                 <a class="nav-link count-indicator dropdown-toggle" id="messageDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
                   <i class="mdi mdi-email"></i>
@@ -382,10 +404,9 @@
           </div>
           <!-- content-wrapper ends -->
           <!-- partial:partials/_footer.html -->
-          <footer class="footer">
+          <footer class="footer shadow-lg" style="background: #fff">
             <div class="d-sm-flex justify-content-center justify-content-sm-between">
-              <span class="text-muted d-block text-center text-sm-left d-sm-inline-block">Copyright © bootstrapdash.com 2020</span>
-              <span class="float-none float-sm-right d-block mt-1 mt-sm-0 text-center"> Free <a href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin templates</a> from Bootstrapdash.com</span>
+              <span class="text-dark d-block text-center text-sm-left d-sm-inline-block">Copyright © corona.com 2020</span>
             </div>
           </footer>
           <!-- partial -->
@@ -413,5 +434,10 @@
     <!-- Custom js for this page -->
     <script src="{{ asset('backend/assets/js/dashboard.js') }}"></script>
     <!-- End custom js for this page -->
+
+    <script>
+        $(document).ready(function () {
+        })
+    </script>
   </body>
 </html>

@@ -4,7 +4,7 @@
 
 <div class="hero_area">
     <div class="bg-box">
-      <img src="images/hero-bg.jpg" alt="">
+      <img src="{{ asset('frontend/assets/images/hero-bg.jpg') }}" alt="">
     </div>
     <!-- header section strats -->
     @include('layouts.header_navbar')
@@ -118,7 +118,7 @@
       <div class="row">
         <div class="col-md-6 ">
           <div class="img-box">
-            <img src="images/about-img.png" alt="">
+            <img src="{{ asset('frontend/assets/images/about-img.png') }}" alt="">
           </div>
         </div>
         <div class="col-md-6">
