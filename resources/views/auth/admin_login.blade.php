@@ -54,9 +54,9 @@
             
             <div class="card border-0 p-3">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('login') }}" class="text-light">
+                    <form method="POST" action="{{ route('admin.login') }}" class="text-light">
                         @csrf
-                        <h2 class="mb-3">Login</h2>
+                        <h2 class="mb-3">Login To Admin Panel</h2>
                         
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>
@@ -80,7 +80,6 @@
                         
                         <button type="submit" class="btn ">Submit</button>
                         
-                        <p class="mb-0 mt-3">You don't have an account! <a href="/register" class="ms-2">Register</a></p>
                     </form>
                 </div>
             </div>
