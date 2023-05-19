@@ -1,14 +1,154 @@
 
 
-/* --------------- Admin ---------------- */
+/* --------------- Admin template ---------------- */
 
 .content-wrapper{
     /* background-color: #222831; */
     background-color: #EDF2F6;
+    color: black !important;
 }
+
+.navbar-toggler:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.main-panel {
+    padding-top: 55px;
+}
+.navbar .navbar-menu-wrapper {
+    height: 55px;
+}
+.sidebar .sidebar-brand-wrapper{
+    height: 55px;
+}
+.sidebar .nav {
+    padding-top: 55px;
+}
+.sidebar .nav .menu-items:nth-child(5n+5) .nav-link .menu-icon i , 
+.sidebar .nav .menu-items:nth-child(5n+1) .nav-link .menu-icon i ,
+.sidebar .nav .menu-items:nth-child(5n+3) .nav-link .menu-icon i
+{
+    color: #fc424a !important;
+}
+
+
 
 .card {
     background-color: #fff !important;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, .15);
 }
 
+.action-icon a {
+    text-decoration: none;
+}
+
+.action-icon i {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    background-color: #eeeeeec3;
+}
+
+.primary-font {
+    font-family: Verdana, Geneva, Tahoma, sans-serif !important;
+}
+
+.btn-theme {
+    display: inline-block;
+    padding: 14px 20px;
+    color: #ffbe33 !important;
+    border-radius: 5px;
+    background-color: #191c24d1 !important;
+    font-size: 14px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    border: none;
+    text-transform: uppercase;
+    
+}
+
+.btn-theme:hover {
+    background-color: #191C24;
+    color: #ffbe33;
+}
+
+.form-control, .form-select {
+    background-color: white !important;
+    border: 1px solid #191c24d1 !important;
+    border-radius: 3px;
+    outline: none !important;
+    box-shadow: none !important;
+    color: black;
+}
+.form-control:focus, .form-select:focus {
+    border: 1px solid #191c24d1 !important;
+}
+
+
+.admin_user_show img {
+    width: 140px;
+    height: 140px;
+    border-radius: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+}
+
+.dotted_left_border {
+    border-left: 2px dashed #ddd;
+    padding-left: 20px;
+}
+
+
+/* ------------ Data table ------------- */
+
+
+.dataTables_wrapper .dataTables_paginate .paginate_button,
+.dataTables_wrapper .dataTables_paginate .paginate_button:hover
+{
+    background: #fff !important;
+    border: none !important;
+    padding: 3px !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.page-item.active .page-link,
+.page-item.active .page-link:active,
+.page-item.active .page-link:focus
+{
+    background-color: #ffbe33 !important;
+    border: none !important;
+    color: #fff;
+    border-radius: 5px !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+table.dataTable>tbody>tr.child ul.dtr-details>li:last-child {
+    text-align: start !important;
+    border-bottom: none;
+    display: flex !important;
+    align-items: center !important;
+}
+  
+
+
+
+
+/* ------------ Select2 ---------------- */
+
+.select2-container--bootstrap-5 .select2-selection--single{
+    background-color: white !important;
+    border: 1px solid #191c24d1 !important;
+    border-radius: 3px;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.select2-container--bootstrap-5 .select2-dropdown .select2-search .select2-search__field{
+    background-color: white !important;
+    border: 1px solid #191c24d1 !important;
+    border-radius: 3px;
+    outline: none !important;
+    box-shadow: none !important;
+}

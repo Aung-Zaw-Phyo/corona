@@ -30,4 +30,11 @@ class AdminUser extends Authenticatable
         'password',
     ];
 
+    public function profile_img_path () {
+        if($this->profile){
+            return asset('storage/admin/'.$this->profile);
+        }
+        return null;
+    }
+
 }

@@ -3,6 +3,10 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\AdminUserController;
+use App\Http\Controllers\backend\CustomerController;
+use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +21,14 @@ use App\Http\Controllers\backend\AdminController;
 
 
 
-Route::middleware('auth:admin_user')->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'home'])->name('home');
+Route::middleware('auth:admin_user')->prefix('admin')->group(function () {
+    Route::get('/', [DashboardController::class, 'home'])->name('home');
+
+    Route::resource('admin-user', AdminUserController::class);
+    Route::get('admin-user/data-table/ssd', [AdminUserController::class, 'ssd']);
+
+    Route::resource('customer', CustomerController::class);
+
+    Route::resource('product', ProductController::class);
+
 });
