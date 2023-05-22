@@ -136,7 +136,9 @@
             </a>
           </li>
 
-          <li class="nav-item menu-items @if(request()->is('admin/customer')) active @endif">
+          <li class="nav-item menu-items 
+            @if(request()->is('admin/customer') || request()->is('admin/customer/create') || request()->is('admin/customer/*')) active @endif"
+          >
             <a class="nav-link" href="{{ route('customer.index') }}">
               <span class="menu-icon">
                 {{-- <i class="mdi mdi-speedometer"></i> --}}
