@@ -148,13 +148,22 @@
             </a>
           </li>
 
-          <li class="nav-item menu-items @if(request()->is('admin/product')) active @endif">
+          <li class="nav-item menu-items @if(request()->is('admin/product') || request()->is('admin/product/create') || request()->is('admin/product/*')) active @endif">
             <a class="nav-link" href="{{ route('product.index') }}">
               <span class="menu-icon">
                 {{-- <i class="mdi mdi-speedometer"></i> --}}
                 <i class="fa-solid fa-apple-whole"></i>
               </span>
               <span class="menu-title">Products</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items @if(request()->is('admin/category') || request()->is('admin/category/create') || request()->is('admin/category/*')) active @endif">
+            <a class="nav-link" href="{{ route('category.index') }}">
+              <span class="menu-icon">
+                <i class="fa-solid fa-bars-staggered"></i>
+              </span>
+              <span class="menu-title">Category</span>
             </a>
           </li>
 
@@ -378,12 +387,16 @@
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap5.min.js"></script>
+    
+    {{-- Sweetalert2 --}}
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     {{-- Sweet alert 1 --}}
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     {{-- Select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
 
     <!-- Laravel Javascript Validation -->
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
@@ -406,6 +419,34 @@
           $('.select2').select2({
             theme: 'bootstrap-5'
           });
+
+          const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+          @if (session('create')) 
+            Toast.fire({
+              icon: 'success',
+              title: "{{ session('create') }}"
+            })
+          @endif
+
+          @if (session('update')) 
+            Toast.fire({
+              icon: 'success',
+              title: "{{ session('update') }}"
+            })
+          @endif
+
+
         })
     </script>
 

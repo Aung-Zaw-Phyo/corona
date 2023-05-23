@@ -3,10 +3,11 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\AdminController;
-use App\Http\Controllers\backend\AdminUserController;
-use App\Http\Controllers\backend\CustomerController;
-use App\Http\Controllers\backend\DashboardController;
 use App\Http\Controllers\backend\ProductController;
+use App\Http\Controllers\backend\CategoryController;
+use App\Http\Controllers\backend\CustomerController;
+use App\Http\Controllers\backend\AdminUserController;
+use App\Http\Controllers\backend\DashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,9 @@ Route::middleware('auth:admin_user')->prefix('admin')->group(function () {
 
     Route::resource('customer', CustomerController::class);
     Route::get('customer/data-table/ssd', [CustomerController::class, 'ssd']);
+
+    Route::resource('category', CategoryController::class);
+    Route::get('category/data-table/ssd', [CategoryController::class, 'ssd']);
 
     Route::resource('product', ProductController::class);
 
