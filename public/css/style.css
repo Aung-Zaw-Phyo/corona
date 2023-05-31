@@ -32,7 +32,9 @@
     color: #fc424a !important;
 }
 
-
+.calendar-table {
+    color: black !important;
+}
 
 .card {
     background-color: #fff !important;
@@ -86,7 +88,7 @@
 }
 
 
-.admin_user_show img {
+.admin_user_show img{
     width: 140px;
     height: 140px;
     border-radius: 100%;
@@ -94,9 +96,28 @@
     border: 1px solid #ddd;
 }
 
+.product_show img, .show_discount img {
+    width: 140px;
+    height: 140px;
+    border-radius: 100%;
+    padding: 5px;
+}
+
+.show_discount img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    padding: 5px;
+}
+
 .dotted_left_border {
     border-left: 2px dashed #ddd;
     padding-left: 20px;
+}
+
+.show_discount .discounted_product_card {
+    border: 1px dashed #ddd;
+    background-color: #F1F2F3 !important;
 }
 
 
@@ -154,5 +175,23 @@ table.dataTable>tbody>tr.child ul.dtr-details>li:last-child {
 }
 
 .swal2-title {
-    font-size: 15px !important;
+    font-size: 14px !important;
+}
+
+
+/* ---------- Product ------------ */
+
+.menu_img_1 {
+    width: 80px ;
+    height: 80px ;
+    background-color: #F1F2F3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+}
+
+.menu_img_1 img {
+    width: 85% !important;
+    height: 80% !important;
 }

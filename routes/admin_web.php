@@ -3,9 +3,11 @@
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\backend\AdminController;
+use App\Http\Controllers\backend\PaymentController;
 use App\Http\Controllers\backend\ProductController;
 use App\Http\Controllers\backend\CategoryController;
 use App\Http\Controllers\backend\CustomerController;
+use App\Http\Controllers\backend\DiscountController;
 use App\Http\Controllers\backend\AdminUserController;
 use App\Http\Controllers\backend\DashboardController;
 
@@ -31,9 +33,15 @@ Route::middleware('auth:admin_user')->prefix('admin')->group(function () {
     Route::resource('customer', CustomerController::class);
     Route::get('customer/data-table/ssd', [CustomerController::class, 'ssd']);
 
-    Route::resource('category', CategoryController::class);
+    Route::resource('category', CategoryController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::get('category/data-table/ssd', [CategoryController::class, 'ssd']);
 
-    Route::resource('product', ProductController::class);
+    Route::resource('discount', DiscountController::class);
+    Route::get('discount/data-table/ssd', [DiscountController::class, 'ssd']);
 
+    Route::resource('product', ProductController::class);
+    Route::get('product/data-table/ssd', [ProductController::class, 'ssd']);
+
+    Route::resource('payment', PaymentController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
+    Route::get('payment/data-table/ssd', [PaymentController::class, 'ssd']);
 });

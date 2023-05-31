@@ -34,6 +34,8 @@
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
+    {{--  Daterange Picker  --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     <link rel="stylesheet" href="{{ asset('backend/assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
@@ -167,6 +169,24 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items @if(request()->is('admin/discount') || request()->is('admin/discount/create') || request()->is('admin/discount/*')) active @endif">
+            <a class="nav-link" href="{{ route('discount.index') }}">
+              <span class="menu-icon">
+                <i class="fa-solid fa-percent"></i>
+              </span>
+              <span class="menu-title">Discount</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items @if(request()->is('admin/payment') || request()->is('admin/payment/create') || request()->is('admin/payment/*')) active @endif">
+            <a class="nav-link" href="{{ route('payment.index') }}">
+              <span class="menu-icon">
+                <i class="fa-solid fa-money-check-dollar"></i>
+              </span>
+              <span class="menu-title">Payment</span>
+            </a>
+          </li>
+
           {{-- <li class="nav-item menu-items">
             <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
@@ -296,8 +316,13 @@
               <li class="nav-item dropdown">
                 <a class="nav-link" id="profileDropdown" href="#" data-toggle="dropdown">
                   <div class="navbar-profile">
-                    <img class="img-xs rounded-circle" src="{{ asset('backend/assets/images/faces/face15.jpg') }}" alt="">
-                    <p class="mb-0 d-none d-sm-block navbar-profile-name">Henry Klein</p>
+                    @if (auth()->user()->profile_img_path())
+                      <img class="img-xs rounded-circle " src="{{ auth()->user()->profile_img_path() }}" alt="">
+                    @else
+                      {{-- <img class="img-xs rounded-circle" src="{{ asset('backend/assets/images/faces/face15.jpg') }}" alt=""> --}}
+                      <img  class="img-xs rounded-circle " src="https://ui-avatars.com/api/?background=ffbe33&color=191C24&name={{ auth()->user()->name }}" alt="">
+                    @endif
+                    <p class="mb-0 d-none d-sm-block navbar-profile-name">{{ auth()->user()->name }}</p>
                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                   </div>
                 </a>
@@ -397,6 +422,10 @@
     {{-- Select2 --}}
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+    {{--  Daterange Picker  --}}
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
 
     <!-- Laravel Javascript Validation -->
     <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
@@ -417,7 +446,9 @@
 
 
           $('.select2').select2({
-            theme: 'bootstrap-5'
+            theme: 'bootstrap-5',
+            placeholder: "Please choose",
+            allowClear: true
           });
 
           const Toast = Swal.mixin({

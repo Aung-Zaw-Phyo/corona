@@ -1,22 +1,22 @@
 @extends('backend.layouts.app')
-@section('title', 'Product')
+@section('title', 'Discount')
 @section('content')
     <div class="card">
         <div class="card-body">
-            <div class="mb-3">
-                <a href="{{ route('product.create') }}" class="btn btn-theme"><i class="fa-solid fa-plus"></i> Create Product</a>
+            <div class="mb-5">
+                <a href="{{ route('discount.create') }}" class="btn btn-theme"><i class="fa-solid fa-plus"></i> Create Discount</a>
             </div>
             
             <div>
                 <div>
-                    <table class="table table-bordered w-100" id="product_table">
+                    <table class="table table-bordered w-100" id="discount_table">
                         <thead>
                             <th></th>
                             <th class="py-3">Name</th>
-                            <th class="py-3">Image</th>
-                            <th class="py-3">Price (MMK)</th>
-                            <th class="py-3">Qunantity</th>
-                            <th class="py-3">Update At</th>
+                            <th class="py-3">Discount Percent</th>
+                            <th class="py-3">Start Date</th>
+                            <th class="py-3">End Date</th>
+                            <th class="py-3">Updated At</th>
                             <th class="py-3">Action</th>
                         </thead>
                     </table>
@@ -29,17 +29,17 @@
 @section('script')
     <script>
         $(document).ready(function () {
-            let data_table = $('#product_table').DataTable({
+            let data_table = $('#discount_table').DataTable({
                 responsive: true,
                 processing: true,
                 serverSide: true,
-                ajax: '/admin/product/data-table/ssd',
+                ajax: '/admin/discount/data-table/ssd',
                 columns: [
                     {data: 'plus-icon', name: 'plus-icon', class: 'text-center'},
                     {data: 'name', name: 'name', class: 'text-center py-3'},
-                    {data: 'image', name: 'image', class: 'text-center d-flex justify-content-center align-items-center py-3'},
-                    {data: 'price', name: 'price', class: 'text-center py-3'},
-                    {data: 'quantity', name: 'quantity', class: 'text-center py-3'},
+                    {data: 'percent', name: 'percent', class: 'text-center py-3'},
+                    {data: 'start_date', name: 'start_date', class: 'text-center py-3'},
+                    {data: 'end_date', name: 'end_date', class: 'text-center py-3'},
                     {data: 'updated_at', name: 'updated_at', class: 'text-center py-3'},
                     {data: 'action', name: 'action', class: 'text-center py-3', orderable: false, searchable: false},
                 ],
@@ -82,7 +82,7 @@
                 .then((willDelete) => {
                     if (willDelete) {
                         $.ajax({
-                            url: `/admin/product/${id}`,
+                            url: `/admin/discount/${id}`,
                             method: "DELETE"
                         }).done(function(res) {
                             if(res == 'success') {

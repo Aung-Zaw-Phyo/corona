@@ -19,6 +19,9 @@ class CategoryController extends Controller
     public function ssd () {
         $categories = Category::query();
         return DataTables::of($categories)
+                ->editColumn('description', function ($each) {
+                    return $each->description ?? '-';
+                })
                 ->editColumn('updated_at', function ($each) {
                     return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
                 })
