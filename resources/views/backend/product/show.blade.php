@@ -37,7 +37,7 @@
                                     </tr>
                                     <tr>
                                         <th>Description</th>
-                                        <td>{{ $product->description ? $product->description : '-' }}</td>
+                                        <td><div class="text-wrap lh-lg">{{ $product->description ? $product->description : '-' }}</div></td>
                                     </tr>
                                 </tbody>
                             </table>

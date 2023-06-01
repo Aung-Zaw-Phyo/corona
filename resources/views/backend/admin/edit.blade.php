@@ -25,7 +25,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <textarea name="address" class="form-control" id="address" cols="30" rows="3">{{ $admin_user->address }}</textarea>
+                                <textarea name="address" class="form-control" id="address" cols="30" rows="5">{{ $admin_user->address }}</textarea>
                               </div>
                               <div class="mb-3">
                                 <label for="level" class="form-label">Level</label>

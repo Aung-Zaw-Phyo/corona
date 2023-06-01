@@ -24,7 +24,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <textarea name="address" class="form-control" id="address" cols="30" rows="3"></textarea>
+                                <textarea name="address" class="form-control" id="address" cols="30" rows="5"></textarea>
                               </div>
                               <div class="mb-3">
                                 <label for="profile" class="form-label">Profile</label>

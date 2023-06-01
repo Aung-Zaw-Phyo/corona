@@ -14,6 +14,9 @@
   <meta name="author" content="" />
   <link rel="shortcut icon" href="images/favicon.png" type="">
 
+  <!-- CSRF Token -->
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+
   <title> Corona </title>
 
   <!-- bootstrap core css -->
@@ -24,15 +27,24 @@
   <!-- nice select  -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-nice-select/1.1.0/css/nice-select.min.css" integrity="sha512-CruCP+TD3yXzlvvijET8wV5WxxEh5H8P4cmz0RFbKK6FlZ2sYl3AEsKlLPHbniXKSrDdFewhbmBK5skbdsASbQ==" crossorigin="anonymous" />
   <!-- font awesome style -->
-  <link href="{{ asset('frontend/assets/css/font-awesome.min.css') }}" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Custom styles for this template -->
   <link href="{{ asset('frontend/assets/css/style.css') }}" rel="stylesheet" />
   <!-- responsive style -->
   <link href="{{ asset('frontend/assets/css/responsive.css') }}" rel="stylesheet" />
 
+  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+  @yield('extra_css')
+
 </head>
-<body>
+<body class="user_panel">
+
+        <div class="cart_layout p-3">
+            <div id="carts">
+
+            </div>
+        </div>
 
         @yield('content')
 
@@ -118,6 +130,10 @@
 
 <!-- jQery -->
 <script src="{{ asset('frontend/assets/js/jquery-3.4.1.min.js') }}"></script>
+
+@yield('script')
+
+
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 </script>
@@ -133,9 +149,64 @@
 <!-- custom js -->
 <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
 <!-- Google Map -->
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-</script>
+{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
+</script> --}}
 <!-- End Google Map -->
+
+{{-- Sweet alert 2 --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    $(document).ready(function () {
+          let token = document.querySelector('meta[name=csrf-token]')
+          if(token) {
+              $.ajaxSetup({
+                  headers: { 
+                      'X-CSRF-TOKEN': token.content
+                  }
+              });
+          }else {
+              console.error('Token not found!');
+          }
+
+        $(document).on('click', '#cart', function (e) {
+          e.preventDefault()
+          $('.cart_layout').toggleClass('cart_layout_hide_show')
+        })
+
+
+        const cart = function () {
+          $.ajax({
+              url: `/menu-cart`,
+              method: 'GET',
+              success: (res) => {
+                $('#carts').html(res)
+              }
+          })
+        }
+
+        cart()
+
+        $(document).on('click', '.remove_cart', function(e) {
+          e.preventDefault()
+          let id = $(this).data('id');
+          $.ajax({
+              url: `/menu/cart`,
+              method: 'DELETE',
+              data: {"cart_id": id},
+              success: (res) => {
+                Swal.fire({
+                  text: res.message,
+                  icon: 'success',
+                  confirmButtonText: 'Containue'
+                })
+                cart()
+              }
+          })
+        })
+    })
+</script>
+
 
 </body>
 

@@ -29,7 +29,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea name="description" class="form-control" id="description" placeholder="Enter discount description" cols="30" rows="3">{{ $discount->description }}</textarea>
+                                <textarea name="description" class="form-control" id="description" placeholder="Enter discount description" cols="30" rows="5">{{ $discount->description }}</textarea>
                             </div>
                             <button type="submit" class="btn btn-theme">Confirm</button>
                         </form>

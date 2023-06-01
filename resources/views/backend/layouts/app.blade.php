@@ -43,7 +43,7 @@
     @yield('extra_css')
   </head>
   {{-- <body class="sidebar-icon-only primary-font"> --}}
-  <body class=" primary-font">
+  <body class="dashboard primary-font">
 
 
 

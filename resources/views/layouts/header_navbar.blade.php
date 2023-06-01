@@ -1,6 +1,6 @@
 <header class="header_section">
     <div class="container">
-      <nav class="navbar navbar-expand-lg custom_nav-container ">
+      <nav class="navbar navbar-expand-lg custom_nav-container " style="z-index: 999;">
         <a class="navbar-brand" href="{{ route('pages.home') }}">
           <span>
             Corona
@@ -27,10 +27,10 @@
             </li>
           </ul>
           <div class="user_option">
-            <a href="" class="user_link">
+            <a href="/profile" class="user_link">
               <i class="fa fa-user" aria-hidden="true"></i>
             </a>
-            <a class="cart_link" href="#">
+            <a class="cart_link" href="#" id="cart">
               <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
                 <g>
                   <g>
@@ -89,11 +89,11 @@
                 <i class="fa fa-search" aria-hidden="true"></i>
               </button>
             </form>
-            <a href="" class="order_online">
+            <a href="/order" class="order_online">
               Order Online
             </a>
           </div>
         </div>
       </nav>
     </div>
-  </header>
+</header>

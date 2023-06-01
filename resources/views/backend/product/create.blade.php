@@ -49,7 +49,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
-                                <textarea name="description" id="description" class="form-control" rows="3"></textarea>
+                                <textarea name="description" id="description" class="form-control" rows="5"></textarea>
                             </div>
                             <button type="submit" class="btn btn-theme">Confirm</button>
                         </form>
