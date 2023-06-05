@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
-use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
+use App\Providers\RouteServiceProvider;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Foundation\Auth\RegistersUsers;
 
 class RegisterController extends Controller
 {
@@ -70,4 +72,35 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]);
     }
+
+    public function register(Request $request)
+    {
+        $formData = $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|min:9|max:14|unique:users,phone',
+            'password' => 'required|confirmed',
+        ]);
+
+        $profile_img_name = null;
+        if($request->hasFile('profile')){
+            $profile_img_file = $request->file('profile');
+            $profile_img_name = uniqid() . '_' . time() . '.' . $profile_img_file->getClientOriginalExtension();
+            Storage::disk('public')->put('users/' . $profile_img_name, file_get_contents($profile_img_file));
+        }
+        $user = new User();
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->address = $request->address;
+        $user->profile = $profile_img_name;
+        $user->password = Hash::make($request->password);
+        $user->save();
+
+        auth()->login($user);
+
+        return redirect('/');
+    }
+
+
 }

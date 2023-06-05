@@ -7,7 +7,7 @@
             border-radius: 15px;
         }
 
-        input {
+        input, textarea {
             border: none !important;
             background-color: #333 !important;
             box-shadow: none !important;
@@ -18,7 +18,7 @@
             border-radius: 0px !important;
         }
 
-        input:focus, input:hover {
+        input:focus, input:hover, textarea:focus, textarea:hover {
             box-shadow: none !important;
             outline: none !important;
             border: none !important;
@@ -43,23 +43,28 @@
         a , a:hover , a:focus {
             color: #ffbe33 !important;
         }
+
+        .preview_img {
+            width: 60px;
+            border-radius: 6px;
+        }
         
     </style>   
 @endsection
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center align-items-center" style="height: 100vh">
-        <div class="col-md-8 col-lg-6">
+    <div class="row justify-content-center align-items-center" style="height: 100vh" style="overflow: scroll">
+        <div class="col-md-8 col-lg-6 py-4">
 
             <div class="card border-0 p-3">
                 <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}" class="text-light">
+                    <form method="POST" action="{{ route('register') }}" class="text-light" enctype="multipart/form-data">
                         @csrf
                         <h2 class="mb-3">Register</h2>
                         <div class="mb-3">
                             <label for="name" class="form-label">Name </label>
-                            <input type="text" name="name" class="form-control form-control-lg @error('name') is-invalid @enderror" id="name" placeholder="Enter your name">
+                            <input type="text" name="name" value="{{ old('name') }}" class="form-control form-control-lg @error('name') is-invalid @enderror" id="name" placeholder="Enter your name">
                             @error('name')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
@@ -68,8 +73,38 @@
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>
-                            <input type="email" name="email" class="form-control form-control-lg @error('email') is-invalid @enderror" id="email" placeholder="Enter your email">
+                            <input type="email" name="email" value="{{ old('email') }}" class="form-control form-control-lg @error('email') is-invalid @enderror" id="email" placeholder="Enter your email">
                             @error('email')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Phone </label>
+                            <input type="text" name="phone" value="{{ old('phone') }}" class="form-control form-control-lg @error('phone') is-invalid @enderror" id="phone" placeholder="Enter your phone">
+                            @error('phone')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
+                            <label for="profile" class="form-label">Profile </label>
+                            <input type="file" name="profile" class="form-control form-control-lg @error('profile') is-invalid @enderror" id="profile" placeholder="Enter your profile">
+                            @error('profile')
+                                <span class="invalid-feedback" role="alert">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                            <div class="profile_preview">
+
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Address </label>
+                            <textarea name="address" class="form-control form-control-lg @error('address') is-invalid @enderror" id="address" placeholder="Enter your address" cols="30" rows="5"> {{ old('address') }}</textarea>
+                            @error('address')
                                 <span class="invalid-feedback" role="alert">
                                     <strong>{{ $message }}</strong>
                                 </span>
@@ -94,75 +129,23 @@
                     </form>
                 </div>
             </div>
-
-            {{-- <div class="card">
-                <div class="card-header">{{ __('Register') }}</div>
-
-                <div class="card-body">
-                    <form method="POST" action="{{ route('register') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
-
-                                @error('name')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email">
-
-                                @error('email')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-
-                                @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password">
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-6 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Register') }}
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div> --}}
         </div>
     </div>
 </div>
+@endsection
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            $('#profile').on('change', function () {
+                $('.profile_preview').html('')
+                let file_length = document.getElementById('profile').files.length
+                for (let i = 0; i < file_length; i++) {
+                    $('.profile_preview').html(`
+                        <img class="m-1 preview_img" src="${URL.createObjectURL(event.target.files[i])}" />
+                    `)                    
+                }
+            })
+        })
+    </script>
 @endsection
