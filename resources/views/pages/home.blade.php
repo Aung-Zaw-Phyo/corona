@@ -243,7 +243,7 @@
 
   <!-- food section -->
 
-  <section class="food_section layout_padding-bottom">
+  {{-- <section class="food_section layout_padding-bottom">
     <div class="container">
       <div class="heading_container heading_center">
         <h2>
@@ -953,7 +953,40 @@
         </a>
       </div>
     </div>
-  </section>
+  </section> --}}
+
+
+    <!-- food section -->
+
+    <section class="food_section layout_padding">
+      <div class="container">
+        <div class="heading_container heading_center">
+          <h2>
+            Our Menu
+          </h2>
+        </div>
+  
+        <ul class="filters_menu">
+          <li class="active category" data-id="">All</li>
+          @foreach ($categories as $category)
+            <li data-id="{{ $category->id }}" class="category">{{ $category->name }}</li>
+          @endforeach
+        </ul>
+  
+        <div class="filters-content">
+          <div class="row g-2" id="menu_data">
+  
+          </div>
+        </div>
+        <div class="btn-box">
+          <a href="" id="view_more">
+            View More
+          </a>
+        </div>
+      </div>
+    </section>
+  
+    <!-- end food section -->
 
   <!-- end food section -->
 
@@ -1107,87 +1140,95 @@
 
   <!-- end client section -->
 
-  <!-- footer section -->
-  {{-- <footer class="footer_section">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-4 footer-col">
-          <div class="footer_contact">
-            <h4>
-              Contact Us
-            </h4>
-            <div class="contact_link_box">
-              <a href="">
-                <i class="fa fa-map-marker" aria-hidden="true"></i>
-                <span>
-                  Location
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-phone" aria-hidden="true"></i>
-                <span>
-                  Call +01 1234567890
-                </span>
-              </a>
-              <a href="">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-                <span>
-                  demo@gmail.com
-                </span>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <div class="footer_detail">
-            <a href="" class="footer-logo">
-              Feane
-            </a>
-            <p>
-              Necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with
-            </p>
-            <div class="footer_social">
-              <a href="">
-                <i class="fa fa-facebook" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-twitter" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-linkedin" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-instagram" aria-hidden="true"></i>
-              </a>
-              <a href="">
-                <i class="fa fa-pinterest" aria-hidden="true"></i>
-              </a>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-4 footer-col">
-          <h4>
-            Opening Hours
-          </h4>
-          <p>
-            Everyday
-          </p>
-          <p>
-            10.00 Am -10.00 Pm
-          </p>
-        </div>
-      </div>
-      <div class="footer-info">
-        <p>
-          &copy; <span id="displayYear"></span> All Rights Reserved By
-          <a href="https://html.design/">Free Html Templates</a><br><br>
-          &copy; <span id="displayYear"></span> Distributed By
-          <a href="https://themewagon.com/" target="_blank">ThemeWagon</a>
-        </p>
-      </div>
-    </div>
-  </footer> --}}
-  <!-- footer section -->
+@endsection
 
+
+@section('script')
+    <script>
+        $(document).ready(function () {
+            
+            let page = 1;
+            let category_id = '';
+            function get_menu () {
+              let url = category_id === '' ? `/menu-get?page=${page}` : `/menu-get?page=${page}&category=${category_id}`
+              $.ajax({
+                  url: url,
+                  method: 'GET',
+                  success: (res) => {
+                      document.querySelector('#menu_data').innerHTML += res
+                  }
+              })
+            }
+
+            get_menu()
+
+            $('#view_more').on('click', function (e) {
+              e.preventDefault()
+              page ++
+              get_menu()
+            })
+
+            $('.category').on('click', function (e) {
+              e.preventDefault()
+              page = 1
+              category_id = $(this).data('id')
+              document.querySelector('#menu_data').innerHTML = ''
+              get_menu()
+            })
+
+            // ----------- Add To Cart ---------------
+
+            $(document).on('click', '.add_to_cart', function (e) {
+              e.preventDefault()
+              let product = $(this).data('product');
+              let id = product.id;
+              let price = product.price;
+              let name = product.name;
+              $.ajax({
+                  url: `/menu/cart`,
+                  method: 'POST',
+                  data: {"id": id, "price": price, "name": name},
+                  success: (res) => {
+                    if(res.status == 200) {
+                      Swal.fire({
+                        text: res.message,
+                        icon: 'success',
+                        confirmButtonText: 'Containue'
+                      })
+                      cart()
+                    }else if (res.status === 401) {
+                      Swal.fire({
+                        icon: 'info',
+                        text: res.message,
+                        confirmButtonText: 'Login',
+                      }).then((result) => {
+                        if (result.isConfirmed) {
+                          window.location.href = '/login'
+                        } 
+                      })
+                    }else {
+                      Swal.fire({
+                        text: res.message,
+                        icon: 'error',
+                        confirmButtonText: 'Containue'
+                      })
+                    }
+                  }
+              })
+            })
+
+            const cart = function () {
+              $.ajax({
+                  url: `/menu-cart`,
+                  method: 'GET',
+                  success: (res) => {
+                    $('.cart_layout').html(res)
+                  }
+              })
+            }
+
+            
+        })
+    </script>
 @endsection
   

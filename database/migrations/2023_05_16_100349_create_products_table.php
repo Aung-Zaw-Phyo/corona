@@ -22,7 +22,6 @@ class CreateProductsTable extends Migration
             $table->string('quantity');
             $table->string('image');
             $table->text('description')->nullable();
-            $table->foreignId('discount_id')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

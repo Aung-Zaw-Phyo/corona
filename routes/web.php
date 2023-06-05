@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\PagesController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\ProductController;
 use App\Http\Controllers\frontend\ProfileController;
 
@@ -27,7 +28,7 @@ Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin
 Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
 Route::name('pages.')->group(function () {
-    Route::get('/', [PagesController::class, 'home'])->name('home');
+    Route::get('/', [HomeController::class, 'home'])->name('home');
 
     Route::get('/menu', [ProductController::class, 'menu'])->name('menu');
     Route::get('/menu-get', [ProductController::class, 'menuGet']);

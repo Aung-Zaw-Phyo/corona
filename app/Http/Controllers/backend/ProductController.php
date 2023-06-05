@@ -75,7 +75,6 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->image = $img_name;
         $product->description = $request->description;
-        $product->discount_id = $request->discount_id;
         $product->save();
 
         return redirect()->route('product.index')->with('create', 'Product successfully created.');
@@ -107,7 +106,6 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->image = $img_name;
         $product->description = $request->description;
-        $product->discount_id = $request->discount_id;
         $product->update();
 
         return redirect()->route('product.index')->with('update', 'Product successfully updated.');

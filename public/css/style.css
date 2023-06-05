@@ -254,3 +254,7 @@ table.dataTable>tbody>tr.child ul.dtr-details>li:last-child {
     background-color: #FFBE33;
     color: #fff;
 }
+
+.user_panel .cart_layout h4{
+    font-family: 'Dancing Script', cursive;
+}

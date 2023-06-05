@@ -144,6 +144,16 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        const cart = function () {
+            $.ajax({
+                url: `/menu-cart`,
+                method: 'GET',
+                success: (res) => {
+                $('.cart_layout').html(res)
+                }
+            })
+        }
+
         var buttonPlus  = $(".qty-btn-plus");
         var buttonMinus = $(".qty-btn-minus");
 
@@ -190,6 +200,10 @@
                     $(this).prop('disabled', false);
                 }
             })
+
+            if(quantity == 0) {
+                cart()
+            }
         });
 
     })      
