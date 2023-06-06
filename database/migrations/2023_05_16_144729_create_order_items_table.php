@@ -20,6 +20,7 @@ class CreateOrderItemsTable extends Migration
             $table->foreignId('product_id');
             $table->string('quantity');
             $table->string('total_price');
+            $table->string('discount_percent')->default('0');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

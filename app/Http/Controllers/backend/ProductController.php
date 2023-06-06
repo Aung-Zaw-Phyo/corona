@@ -10,7 +10,6 @@ use Yajra\DataTables\DataTables;
 use App\Http\Requests\StoreProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UpdateProduct;
-use App\Models\Discount;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -55,8 +54,7 @@ class ProductController extends Controller
 
     public function create () {
         $categories = Category::all();
-        $discounts = Discount::all();
-        return view('backend.product.create', compact('categories', 'discounts'));
+        return view('backend.product.create', compact('categories'));
     }
 
     public function store (StoreProduct $request) {
@@ -83,8 +81,7 @@ class ProductController extends Controller
     public function edit ($id) {
         $product = Product::findOrFail($id);
         $categories = Category::all();
-        $discounts = Discount::all();
-        return view('backend.product.edit', compact('product', 'categories', 'discounts'));
+        return view('backend.product.edit', compact('product', 'categories'));
     }
 
     public function update (UpdateProduct $request, $id) {

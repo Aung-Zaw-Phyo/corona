@@ -82,14 +82,15 @@
 
             $(document).on('click', '.add_to_cart', function (e) {
               e.preventDefault()
-              let product = $(this).data('product');
+              let product = JSON.parse(atob($(this).data('product')));
               let id = product.id;
               let price = product.price;
               let name = product.name;
+              let discount = product.discount;
               $.ajax({
                   url: `/menu/cart`,
                   method: 'POST',
-                  data: {"id": id, "price": price, "name": name},
+                  data: {"id": id, "price": price, "name": name, "discount": discount},
                   success: (res) => {
                     if(res.status == 200) {
                       Swal.fire({

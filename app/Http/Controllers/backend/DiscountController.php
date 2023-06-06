@@ -13,6 +13,7 @@ use App\Http\Requests\StoreCategory;
 use App\Http\Requests\StoreDiscount;
 use App\Http\Requests\UpdateCategory;
 use App\Http\Requests\UpdateDiscount;
+use App\Models\Product;
 use Illuminate\Cache\RateLimiting\Limit;
 
 class DiscountController extends Controller
@@ -50,7 +51,8 @@ class DiscountController extends Controller
     }
 
     public function create () {
-        return view('backend.discount.create');
+        $products = Product::OrderBy('updated_at', 'desc')->get();
+        return view('backend.discount.create', compact('products'));
     }
 
     public function store (StoreDiscount $request) {
@@ -63,12 +65,15 @@ class DiscountController extends Controller
         $discount->description = $request->description;
         $discount->save();
 
+        $discount->products()->sync($request->product_ids);
+
         return redirect()->route('discount.index')->with('create', 'Discount successfully created.');
     }
 
     public function edit ($id) {
         $discount = Discount::findOrFail($id);
-        return view('backend.discount.edit', compact('discount'));
+        $products = Product::OrderBy('updated_at', 'desc')->get();
+        return view('backend.discount.edit', compact('discount', 'products'));
     }
 
     public function update (UpdateDiscount $request, $id) {
@@ -80,6 +85,8 @@ class DiscountController extends Controller
         $discount->end_date = $request->end_date;
         $discount->description = $request->description;
         $discount->update();
+
+        $discount->products()->sync($request->product_ids);
 
         return redirect()->route('discount.index')->with('update', 'Discount successfully updated.');
     }

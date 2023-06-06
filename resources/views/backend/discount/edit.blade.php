@@ -28,6 +28,15 @@
                                 <input type="text" name="end_date" class="form-control datepicker" id="end_date" value="{{ old('end_date', $discount->end_date) }}">
                             </div>
                             <div class="mb-3">
+                                <label for="product" class="form-label">Products</label>
+                                <select name="product_ids[]" class="form-select select2" id="product" multiple="multiple">
+                                    <option value=""></option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}" @if (in_array($product->id, collect($discount->products)->pluck('id')->toArray())) selected @endif>{{ $product->name }}</option>
+                                    @endforeach                                    
+                                </select>
+                            </div>
+                            <div class="mb-3">
                                 <label for="description" class="form-label">Description</label>
                                 <textarea name="description" class="form-control" id="description" placeholder="Enter discount description" cols="30" rows="5">{{ $discount->description }}</textarea>
                             </div>

@@ -18,7 +18,10 @@
                   <h6>
                     {{ $product->price }} <small>MMK</small>
                   </h6>
-                  <a href="#" class="add_to_cart" data-product="{{ $product }}">
+                  @php
+                      $product['discount'] = 0;
+                  @endphp
+                  <a href="#" class="add_to_cart" data-product="{{ base64_encode(json_encode($product, JSON_HEX_APOS)) }}">
                     <i class="fa-solid fa-cart-shopping text-light"></i>
                   </a>
                 </div>

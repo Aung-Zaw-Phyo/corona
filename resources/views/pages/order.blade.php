@@ -79,6 +79,7 @@
                         <th class="text-center">Image</th>
                         <th class="text-center">Name</th>
                         <th class="text-center">Price</th>
+                        <th class="text-center">Per Discount (%)</th>
                         <th class="text-center">Sub Total</th>
                         <th class="text-center">Quantity</th>
                     </thead>
@@ -88,7 +89,14 @@
                             <td class="text-center"><img class="p-1" width="80px" src="{{ $item->product->image_path() }}" alt=""></td>
                             <td class="text-center">{{ $item->product->name }}</td>
                             <td class="text-center">{{ $item->product->price }} <small>(MMK)</small></td>
-                            <td class="text-center"><span id="{{$item->id}}_item_price">{{ $item->product->price * $item->quantity }}</span> <small>(MMK)</small></td>
+                            <td class="text-center">
+                                @if ($item->discount_percent)
+                                <span class="badge badge-dark">{{ $item->discount_percent }} %</span>
+                                @else
+                                -
+                                @endif
+                            </td>
+                            <td class="text-center"><span id="{{$item->id}}_item_price" class="sub_total" value="{{ $item->total_price }}">{{ $item->total_price }}</span> <small>(MMK)</small></td>
                             <td class="text-center">
                                 <div class="qty-container">
                                     <button class="qty-btn-minus btn-light" data-id="{{ $item->id }}" type="button"><i class="fa fa-minus"></i></button>
@@ -98,6 +106,11 @@
                             </td>
                         </tr>
                         @endforeach
+
+                        <tr style="background-color: #eeeeee34">
+                            <th class="text-center"  colspan="4">Total Price</th>
+                            <th class="" colspan="2"><div id="total_price"></div></th>
+                        </tr>
                     </tbody>
                 </table>
             </div>
@@ -144,6 +157,17 @@
 @section('script')
 <script>
     $(document).ready(function () {
+        const getTotalPrice = () => {
+            document.getElementById('total_price').innerHTML = ''
+            const priceTags = document.getElementsByClassName('sub_total')
+            let total_price = 0
+            for (let i = 0; i < priceTags.length; i++) {
+                total_price += Number($(priceTags[i]).attr('value'));
+            }
+            document.getElementById('total_price').innerHTML = `${total_price} <small>MMK</small>`
+        }
+        getTotalPrice()
+
         const cart = function () {
             $.ajax({
                 url: `/menu-cart`,
@@ -172,8 +196,10 @@
                     if(res.status == 200) {
                         $n.val(res.data.quantity)
                         $(`#${res.data.id}_item_price`).html(res.data.total_price)
+                        $(`#${res.data.id}_item_price`).attr('value', res.data.total_price)
                     }
                     $(this).prop('disabled', false);
+                    getTotalPrice()
                 }
             })
         });
@@ -194,16 +220,17 @@
                     if(res.status == 200) {
                         $n.val(res.data.quantity)
                         $(`#${res.data.id}_item_price`).html(res.data.total_price)
+                        $(`#${res.data.id}_item_price`).attr('value', res.data.total_price)
                     }else if(res.status == 201){
-                        $(`#${res.data.id}_item_row`).hide()
+                        $(`#${res.data.id}_item_row`).hide('slow')
                     }
                     $(this).prop('disabled', false);
+                    getTotalPrice()
+                    if(quantity == 0) {
+                        cart()
+                    }
                 }
             })
-
-            if(quantity == 0) {
-                cart()
-            }
         });
 
     })      

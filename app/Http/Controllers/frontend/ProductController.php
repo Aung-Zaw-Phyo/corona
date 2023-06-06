@@ -47,11 +47,13 @@ class ProductController extends Controller
             ];
         }
 
+
         $order_item = new OrderItem();
         $order_item->user_id = auth()->user()->id;
         $order_item->product_id = $request->id;
         $order_item->quantity = 1;
-        $order_item->total_price = $request->price;
+        $order_item->discount_percent = $request->discount;
+        $order_item->total_price = ((100 - $request->discount) / 100) * $request->price;
         $order_item->save();
 
         return [

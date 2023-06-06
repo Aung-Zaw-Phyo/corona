@@ -32,15 +32,6 @@
                                 </select>
                             </div>
                             <div class="mb-3">
-                                <label for="discount" class="form-label">Discount</label>
-                                <select name="discount_id" class="form-select select2" id="discount">
-                                    <option value=""></option>
-                                    @foreach ($discounts as $discount)
-                                        <option value="{{ $discount->id }}">{{ $discount->name }}</option>
-                                    @endforeach                                    
-                                </select>
-                            </div>
-                            <div class="mb-3">
                                 <label for="image" class="form-label">Image</label>
                                 <input type="file" name="image" class="form-control" id="image">
                                 <div class="preview_img d-flex align-items-start">

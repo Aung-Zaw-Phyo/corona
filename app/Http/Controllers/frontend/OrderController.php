@@ -25,7 +25,8 @@ class OrderController extends Controller
             ];
         }else {
             $order_item->quantity = $request->quantity;
-            $order_item->total_price = $order_item->product->price * $request->quantity;
+            // $order_item->total_price = $order_item->product->price * $request->quantity;
+            $order_item->total_price = (((100 - $order_item->discount_percent) / 100) * $order_item->product->price) * $request->quantity;
             $order_item->update();
             return [
                 'status' => 200,

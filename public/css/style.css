@@ -258,3 +258,13 @@ table.dataTable>tbody>tr.child ul.dtr-details>li:last-child {
 .user_panel .cart_layout h4{
     font-family: 'Dancing Script', cursive;
 }
+
+
+/* ----------------- home page ------------- */
+
+.offer_section .box .img-box {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}

@@ -10,8 +10,7 @@ class Discount extends Model
 {
     use HasFactory;
 
-
     public function products () {
-        return $this->hasMany(Product::class, 'discount_id', 'id');
+        return $this->belongsToMany(Product::class, 'discount_products', 'discount_id', 'product_id');
     }
 }
