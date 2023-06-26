@@ -43,4 +43,5 @@ Route::name('pages.')->group(function () {
     Route::get('/booking', [PagesController::class, 'booking'])->name('booking');
 
     Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
+    Route::post('/profile/update/{id}', [ProfileController::class, 'updateInfo'])->name('updateProfileInfo')->middleware('auth');
 });

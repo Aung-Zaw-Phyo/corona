@@ -33,7 +33,7 @@
   <!-- responsive style -->
   <link href="{{ asset('frontend/assets/css/responsive.css') }}" rel="stylesheet" />
 
-  <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+  <link rel="stylesheet" href="{{ asset('css/pages.css') }}">
 
   @yield('extra_css')
 
@@ -132,9 +132,6 @@
 <!-- jQery -->
 <script src="{{ asset('frontend/assets/js/jquery-3.4.1.min.js') }}"></script>
 
-@yield('script')
-
-
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
 </script>
@@ -150,13 +147,19 @@
 <!-- custom js -->
 <script src="{{ asset('frontend/assets/js/custom.js') }}"></script>
 <!-- Google Map -->
-{{-- <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap">
-</script> --}}
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCh39n5U-4IoWpsVGUHWdqB6puEkhRLdmI&callback=myMap"></script>
 <!-- End Google Map -->
 
 {{-- Sweet alert 2 --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    {{-- Sweet alert 1 --}}
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+  <!-- Laravel Javascript Validation -->
+  <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
+
+  @yield('script')
 <script>
     $(document).ready(function () {
           let token = document.querySelector('meta[name=csrf-token]')
@@ -174,7 +177,6 @@
           e.preventDefault()
           $('.cart_layout').toggleClass('cart_layout_hide_show')
         })
-
 
         const cart = function () {
           $.ajax({
@@ -205,6 +207,27 @@
               }
           })
         })
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+              toast.addEventListener('mouseenter', Swal.stopTimer)
+              toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+          })
+
+        @if (session('update')) 
+            Toast.fire({
+              icon: 'success',
+              title: "{{ session('update') }}"
+            })
+        @endif
+
+
     })
 </script>
 
