@@ -21,7 +21,7 @@ class CreateOrderItemsTable extends Migration
             $table->string('quantity');
             $table->string('total_price');
             $table->string('discount_percent')->default('0');
-            $table->boolean('status')->default(true);
+            $table->enum('status', ['pending', 'completed'])->default('pending');
             $table->timestamps();
         });
     }

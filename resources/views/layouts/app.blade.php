@@ -40,10 +40,15 @@
 </head>
 <body class="user_panel">
 
-        <div class="cart_layout p-3">
-            <h4 class="text-center text-light">Your Carts</h4>
-            <div id="carts">
+        <div class="cart_layout">
+            <div class="position-relative h-100">
+              <h4 class="text-center text-light title">Your Carts</h4>
+              <div id="carts">
 
+              </div>
+              <div class="checkout-action">
+                <a href="/checkout">CHECKOUT</a>
+              </div>
             </div>
         </div>
 
@@ -130,7 +135,8 @@
         </footer>
 
 <!-- jQery -->
-<script src="{{ asset('frontend/assets/js/jquery-3.4.1.min.js') }}"></script>
+  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
 
 <!-- popper js -->
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
@@ -183,7 +189,7 @@
               url: `/menu-cart`,
               method: 'GET',
               success: (res) => {
-                $('#carts').html(res)
+                $('.cart_layout #carts').html(res)
               }
           })
         }
@@ -204,6 +210,18 @@
                   confirmButtonText: 'Containue'
                 })
                 cart()
+
+                if($('#order_items').length){
+                  $.ajax({
+                    url: "/checkout-get",
+                    method: 'GET',
+                    data: {},
+                    success: (res) => {
+                      $('#order_items').html(res)
+                    }
+                  })
+                }
+
               }
           })
         })
@@ -226,6 +244,33 @@
               title: "{{ session('update') }}"
             })
         @endif
+
+
+
+        // Send Firebase Notification
+
+        var firebaseConfig = {
+            apiKey: "AIzaSyCzAPl3yxJkIwLh6zByZDh--TaaKQOm9ew", 
+            authDomain: "laravelfcm-b29ba.firebaseapp.com",
+            databaseURL: "https://XXXX.firebaseio.com",
+            projectId: "laravelfcm-b29ba",
+            storageBucket: "laravelfcm-b29ba.appspot.com",
+            messagingSenderId: "4333973945",
+            appId: "1:4333973945:web:775e456ac4358cb8554668",                                                                                                      
+            measurementId: "G-44YTE2STYX"
+        };
+        
+        firebase.initializeApp(firebaseConfig);
+        const messaging = firebase.messaging();
+
+        messaging.onMessage(function(payload) {
+            const noteTitle = payload.notification.title;
+            const noteOptions = {
+                body: payload.notification.body,
+                icon: payload.notification.icon,
+            };
+            new Notification(noteTitle, noteOptions);
+        });
 
 
     })

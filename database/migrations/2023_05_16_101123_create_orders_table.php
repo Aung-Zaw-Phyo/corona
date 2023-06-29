@@ -17,10 +17,12 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('order_no');
             $table->foreignId('user_id');
-            $table->foreignId('payment_id');
-            $table->text('address');
+            $table->string('session_id');
+            $table->string('name');
             $table->string('phone');
-            $table->integer('level')->default(1)->comment('1 => ordered (user can cancel in this level) | 2 => pending | 3 => completed');
+            $table->text('address');
+            $table->text('messaage')->nullable();
+            $table->enum('status', ['unpaid', 'paid', 'completed']);
             $table->timestamps();
         });
     }

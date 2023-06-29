@@ -59,6 +59,10 @@
             border-radius: 50px;
         }
 
+        textarea {
+            height: 80px !important;
+        }
+
     </style>
 @endsection
 
@@ -71,9 +75,9 @@
         @include('layouts.header_navbar')
     </div>
 
-    <section class="layout_padding">
+    <section class="layout_padding order_section">
         <div class="container">
-            <div class="table-responsive">
+            <div class="table-responsive mb-4">
                 <table class="table table-bordered">
                     <thead>
                         <th class="text-center">Image</th>
@@ -83,7 +87,7 @@
                         <th class="text-center">Sub Total</th>
                         <th class="text-center">Quantity</th>
                     </thead>
-                    <tbody>
+                    <tbody id="order_items">
                         @foreach ($order_items as $item)
                         <tr id="{{$item->id}}_item_row">
                             <td class="text-center"><img class="p-1" width="80px" src="{{ $item->product->image_path() }}" alt=""></td>
@@ -113,6 +117,29 @@
                         </tr>
                     </tbody>
                 </table>
+            </div>
+
+            <div class="form_container">
+                <form action="{{ route('pages.checkout.checkout') }}" method="POST" id="checkout-form">
+                    @csrf
+                    <div class="mb-3">
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" value="" />
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" name="phone" class="form-control" placeholder="Phone Number" value=''/>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="address" id="" cols="30" rows="10" placeholder="Enter address"></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <textarea class="form-control" name="message" id="" cols="30" rows="10" placeholder="Enter message"></textarea>
+                    </div>
+                    <div class="btn_box d-flex justify-content-end">
+                        <button type="submit">
+                            CHECKOUT
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
       </section>
@@ -155,6 +182,7 @@
 @endsection
 
 @section('script')
+{!! JsValidator::formRequest('App\Http\Requests\StoreCheckout', '#checkout-form') !!}
 <script>
     $(document).ready(function () {
         const getTotalPrice = () => {
@@ -173,7 +201,7 @@
                 url: `/menu-cart`,
                 method: 'GET',
                 success: (res) => {
-                $('.cart_layout').html(res)
+                $('.cart_layout #carts').html(res)
                 }
             })
         }
@@ -188,7 +216,7 @@
             let order_item_id = $(this).data('id')
             let quantity = $n.val()
             $.ajax({
-                url: '/order/menu/control-quantity',
+                url: '/checkout/menu/control-quantity',
                 method: 'GET',
                 data: {"order_item_id": order_item_id, "quantity": quantity, "status": 'increase'},
                 success: (res) => {
@@ -212,17 +240,18 @@
             let quantity = $n.val()
 
             $.ajax({
-                url: '/order/menu/control-quantity',
+                url: '/checkout/menu/control-quantity',
                 method: 'GET',
                 data: {"order_item_id": order_item_id, "quantity": quantity, "status": "decrease"},
                 success: (res) => {
-                    console.log(res.message)
                     if(res.status == 200) {
                         $n.val(res.data.quantity)
                         $(`#${res.data.id}_item_price`).html(res.data.total_price)
                         $(`#${res.data.id}_item_price`).attr('value', res.data.total_price)
                     }else if(res.status == 201){
                         $(`#${res.data.id}_item_row`).hide('slow')
+                    }else {
+                        console.log(res.message)
                     }
                     $(this).prop('disabled', false);
                     getTotalPrice()

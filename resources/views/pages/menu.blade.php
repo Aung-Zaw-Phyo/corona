@@ -125,7 +125,7 @@
                   url: `/menu-cart`,
                   method: 'GET',
                   success: (res) => {
-                    $('.cart_layout').html(res)
+                    $('.cart_layout #carts').html(res)
                   }
               })
             }

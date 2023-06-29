@@ -23,7 +23,8 @@
   </div>
 
     <div class="container py-5 profile">
-        <div class="card shadow border-0">
+
+        <div class="card shadow border-0 mb-3">
             <div class="card-body">
                 <div class="row mb-3">
                     <div class="col-lg-6 d-flex flex-column justify-content-center align-items-center">
@@ -90,6 +91,18 @@
                           </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div class="card shadow border-0">
+            <div class="card-body d-flex justify-content-between logout-card" 
+                onclick="event.preventDefault();
+                document.getElementById('logout-form').submit();"
+            >
+                <div>Logout</div>
+                <div> <i class="fa-solid fa-right-from-bracket"></i> </div>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>

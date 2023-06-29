@@ -18,7 +18,7 @@ class ProductController extends Controller
 
     public function menuGet (Request $request) {
         $skip_count = 0;
-        $products = Product::with('category');
+        $products = Product::with('category')->where('status', true);
         if($request->category){
             $products = $products->where('category_id', $request->category);
         }
@@ -38,7 +38,7 @@ class ProductController extends Controller
             ];
         }
 
-        $checkItem = OrderItem::where('user_id', auth()->user()->id)->where('product_id', $request->id)->where('status', true)->exists();
+        $checkItem = OrderItem::where('user_id', auth()->user()->id)->where('product_id', $request->id)->where('status', 'pending')->exists();
         if($checkItem){
             return [
                 'status' => 422,
@@ -47,6 +47,14 @@ class ProductController extends Controller
             ];
         }
 
+        $product = Product::where('id', $request->id)->where('status', true)->firstOrFail();
+        if($product && $product->quantity == 0){
+            return [
+                'status' => 422,
+                'message' => "$request->name is not enough.",
+                'data' => null
+            ];
+        }
 
         $order_item = new OrderItem();
         $order_item->user_id = auth()->user()->id;
@@ -55,6 +63,14 @@ class ProductController extends Controller
         $order_item->discount_percent = $request->discount;
         $order_item->total_price = ((100 - $request->discount) / 100) * $request->price;
         $order_item->save();
+
+        $product->quantity = $product->quantity - 1;
+        $product->update();
+
+        if($product->quantity == 0){
+            $product->status = false;
+            $product->update();
+        }
 
         return [
             'status' => 200,
@@ -65,6 +81,11 @@ class ProductController extends Controller
 
     public function removeCart (Request $request) {
         $order_item = OrderItem::with('product')->where('user_id', auth()->user()->id)->where('id', $request->cart_id)->firstOrFail();
+
+        $product = $order_item->product;
+        $product->quantity = $product->quantity + $order_item->quantity;
+        $product->update();
+
         $order_item->delete();
         return [
             'status' => 200,
@@ -76,7 +97,7 @@ class ProductController extends Controller
     public function menuCart () {
         $carts = [];
         if(Auth::check()){
-            $carts = OrderItem::with('product')->where('user_id', auth()->user()->id)->where('status', true)->get();
+            $carts = OrderItem::with('product')->where('user_id', auth()->user()->id)->where('status', 'pending')->get();
         }
         return view('pages.components.cart', compact('carts'))->render();
     }
