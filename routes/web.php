@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\frontend\OrderController;
 use App\Http\Controllers\frontend\PagesController;
 use App\Http\Controllers\Auth\AdminLoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\frontend\CheckoutController;
 use App\Http\Controllers\frontend\HomeController;
 use App\Http\Controllers\frontend\ProductController;
@@ -29,6 +30,8 @@ Route::get('admin/login', [AdminLoginController::class, 'showLoginForm']);
 Route::post('/admin/login', [AdminLoginController::class, 'login'])->name('admin.login');
 Route::post('admin/logout', [AdminLoginController::class, 'logout'])->name('admin.logout');
 
+Route::post('/create-otp', [RegisterController::class, 'createOTP']);
+
 Route::name('pages.')->group(function () {
     Route::get('/', [HomeController::class, 'home'])->name('home');
 
@@ -50,8 +53,4 @@ Route::name('pages.')->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'index'])->middleware('auth');
     Route::post('/profile/update/{id}', [ProfileController::class, 'updateInfo'])->name('updateProfileInfo')->middleware('auth');
-});
-
-Route::get('test', function () {
-    return view('pages.success');
 });

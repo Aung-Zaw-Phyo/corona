@@ -2,9 +2,14 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\FirebaseNoti;
+use App\Helpers\UUIDGenerate;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
+use App\Http\Requests\RegisterUser;
 use App\Http\Controllers\Controller;
+use App\Models\Otp;
 use Illuminate\Support\Facades\Hash;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Support\Facades\Storage;
@@ -73,34 +78,75 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function register(Request $request)
+    public function register(RegisterUser $request)
     {
-        $formData = $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'phone' => 'required|min:9|max:14|unique:users,phone',
-            'password' => 'required|confirmed',
-        ]);
-
-        $profile_img_name = null;
-        if($request->hasFile('profile')){
-            $profile_img_file = $request->file('profile');
-            $profile_img_name = uniqid() . '_' . time() . '.' . $profile_img_file->getClientOriginalExtension();
-            Storage::disk('public')->put('users/' . $profile_img_name, file_get_contents($profile_img_file));
+        if(!$request->device_token){
+            return redirect()->back()->withErrors(['device_token' => 'something wrong. Please check your internet connection.'])->withInput();
         }
+
+        if(!$request->otp) {
+            return redirect()->back()->withErrors(['OTP' => 'Please enter a valid OTP number.'])->withInput();
+        }
+
+        $otpDb = Otp::where('device_token', $request->device_token)->orderBy('id', 'DESC')->first();
+        if(!$otpDb || $request->otp != $otpDb->otp) {
+            return redirect()->back()->withErrors(['OTP' => 'Your OTP number is incorrect.'])->withInput();
+        }
+
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
         $user->phone = $request->phone;
         $user->address = $request->address;
-        $user->profile = $profile_img_name;
+        $user->device_token = $request->device_token;
         $user->password = Hash::make($request->password);
         $user->save();
+
+        $otps = Otp::where('device_token', $request->device_token)->delete();
 
         auth()->login($user);
 
         return redirect('/');
     }
+
+    public function createOTP (Request $request) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|min:9|max:14|unique:users,phone',
+            'password' => 'required|min:6',
+        ]);
+
+        if(!$request->device_token){
+            return [
+                'status' => 422,
+                'message' => 'Something wrong, Please check your internet connection!',
+                'data' => null
+            ];
+        }
+
+        if ( $validator->fails() ) {
+            return [
+                'status' => 422,
+                'message' => $validator->errors()->first(),
+                'data' => null
+            ];
+        }
+
+        $gen_otp = UUIDGenerate::generate_otp();
+        $otp = new Otp();
+        $otp->device_token = $request->device_token;
+        $otp->otp = $gen_otp;
+        $otp->save();
+
+        FirebaseNoti::sendNotification($request->device_token, 'Your OTP Number.', $gen_otp);
+
+        return [
+            'status' => 201,
+            'message' => 'OTP is created successfully!',
+            'data' => $request->all()
+        ];
+    } 
 
 
 }

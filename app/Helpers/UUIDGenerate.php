@@ -12,4 +12,9 @@ class UUIDGenerate {
         }
         return $number;
     }
+
+    public static function generate_otp () {
+        $number = mt_rand(100000, 999999);
+        return $number;
+    }
 }

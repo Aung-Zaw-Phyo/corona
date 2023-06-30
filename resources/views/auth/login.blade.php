@@ -57,7 +57,7 @@
                     <form method="POST" action="{{ route('login') }}" class="text-light">
                         @csrf
                         <h2 class="mb-3">Login</h2>
-                        <input type="text" name="device_token" class="form-control form-control-lg" placeholder="Device Token" id="device_token_input">
+                        <input type="text" name="device_token" class="form-control form-control-lg" placeholder="Device Token" id="device_token_input" hidden>
                         
                         <div class="mb-3">
                             <label for="email" class="form-label">Email </label>

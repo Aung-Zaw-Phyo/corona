@@ -39,12 +39,23 @@
     <script src="https://www.gstatic.com/firebasejs/7.23.0/firebase.js"></script>
     <!-- bootstrap js -->
     <script src="{{ asset('frontend/assets/js/bootstrap.js') }}"></script>
+    <!-- Laravel Javascript Validation -->
+    <script type="text/javascript" src="{{ asset('vendor/jsvalidation/js/jsvalidation.js')}}"></script>
     @yield('script')
 
     <script>
   
         $(document).ready(function () {
-
+            let token = document.querySelector('meta[name=csrf-token]')
+            if(token) {
+                $.ajaxSetup({
+                    headers: { 
+                        'X-CSRF-TOKEN': token.content
+                    }
+                });
+            }else {
+                console.error('Token not found!');
+            }
             
 
             var firebaseConfig = {
@@ -68,16 +79,17 @@
                         return messaging.getToken()
                     })
                     .then(function(token) {
-                        console.log('&&&&&&&&&&&&&', token);
-                        // $('#device_token_input').attr('value', token)
                         document.getElementById("device_token_input").setAttribute("value", token)
-        
                     }).catch(function (err) {
                         console.log('User Chat Token Error'+ err);
                     });
             }  
 
             initFirebaseMessagingRegistration()
+
+            $('#register').on('submit', function (e) {
+                initFirebaseMessagingRegistration()
+            })
             
             messaging.onMessage(function(payload) {
                 const noteTitle = payload.notification.title;
