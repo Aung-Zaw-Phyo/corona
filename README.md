@@ -6,11 +6,14 @@ All ecommerce project Features will include in this project. (This project is no
 ## What Features Include in this project
 User Features (Finished Features)
 - Register Login Logout (Multiple Authentication)
+- Register OTP system with Firebase
 - Add to cart without reload
 - Remove cart without reload
 - Increase or decrease menu quantity without reload
 - Custom pagination without reload
 - Filter by category without reload
+- Order checkout with Stripe payment
+- Order checkout noti with Firebase
 
 
 Admin Features (Finished Features)
@@ -24,6 +27,8 @@ Admin Features (Finished Features)
 - Daterangepicker
 - Select2
 - Sweetalert2
+- Stripe Payment
+- Firebase Notification
 
 
 ## Build With
