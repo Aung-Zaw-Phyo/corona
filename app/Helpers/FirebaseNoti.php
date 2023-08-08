@@ -37,6 +37,8 @@ class FirebaseNoti {
 
     public static function sendNotifications($title, $body)
     {
+        $SERVER_API_KEY = env('FIREBASE_API_KEY');
+        
         $firebaseTokens = User::whereNotNull('device_token')->pluck('device_token')->all();
         
         $data = [

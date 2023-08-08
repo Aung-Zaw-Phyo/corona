@@ -1,174 +1,146 @@
 @extends('layouts.app')
 
 @section('content')
-    
+
 <div class="hero_area">
     <div class="bg-box">
-      <img src="{{ asset('frontend/assets/images/hero-bg.jpg') }}" alt="">
+        <img src="{{ asset('frontend/assets/images/hero-bg.jpg') }}" alt="">
     </div>
     <!-- header section strats -->
     @include('layouts.header_navbar')
-    {{-- <header class="header_section">
-      <div class="container">
-        <nav class="navbar navbar-expand-lg custom_nav-container ">
-          <a class="navbar-brand" href="{{ route('pages.home') }}">
-            <span>
-              Feane
-            </span>
-          </a>
+<!-- end header section -->
+</div>
 
-          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class=""> </span>
-          </button>
-
-          <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav  mx-auto ">
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('pages.home') }}">Home </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('pages.menu') }}">Menu</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="{{ route('pages.about') }}">About</a>
-              </li>
-              <li class="nav-item active">
-                <a class="nav-link" href="{{ route('pages.booking') }}">Book Table <span class="sr-only">(current)</span> </a>
-              </li>
-            </ul>
-            <div class="user_option">
-              <a href="" class="user_link">
-                <i class="fa fa-user" aria-hidden="true"></i>
-              </a>
-              <a class="cart_link" href="#">
-                <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 456.029 456.029" style="enable-background:new 0 0 456.029 456.029;" xml:space="preserve">
-                  <g>
-                    <g>
-                      <path d="M345.6,338.862c-29.184,0-53.248,23.552-53.248,53.248c0,29.184,23.552,53.248,53.248,53.248
-                   c29.184,0,53.248-23.552,53.248-53.248C398.336,362.926,374.784,338.862,345.6,338.862z" />
-                    </g>
-                  </g>
-                  <g>
-                    <g>
-                      <path d="M439.296,84.91c-1.024,0-2.56-0.512-4.096-0.512H112.64l-5.12-34.304C104.448,27.566,84.992,10.67,61.952,10.67H20.48
-                   C9.216,10.67,0,19.886,0,31.15c0,11.264,9.216,20.48,20.48,20.48h41.472c2.56,0,4.608,2.048,5.12,4.608l31.744,216.064
-                   c4.096,27.136,27.648,47.616,55.296,47.616h212.992c26.624,0,49.664-18.944,55.296-45.056l33.28-166.4
-                   C457.728,97.71,450.56,86.958,439.296,84.91z" />
-                    </g>
-                  </g>
-                  <g>
-                    <g>
-                      <path d="M215.04,389.55c-1.024-28.16-24.576-50.688-52.736-50.688c-29.696,1.536-52.224,26.112-51.2,55.296
-                   c1.024,28.16,24.064,50.688,52.224,50.688h1.024C193.536,443.31,216.576,418.734,215.04,389.55z" />
-                    </g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                  <g>
-                  </g>
-                </svg>
-              </a>
-              <form class="form-inline">
-                <button class="btn  my-2 my-sm-0 nav_search-btn" type="submit">
-                  <i class="fa fa-search" aria-hidden="true"></i>
-                </button>
-              </form>
-              <a href="" class="order_online">
-                Order Online
-              </a>
-            </div>
-          </div>
-        </nav>
-      </div>
-    </header> --}}
-    <!-- end header section -->
-  </div>
-
-  <!-- book section -->
-  <section class="book_section layout_padding">
+<!-- book section -->
+<section class="book_section layout_padding">
     <div class="container">
-      <div class="heading_container">
-        <h2>
-          Book A Table
-        </h2>
-      </div>
-      <div class="row">
-        <div class="col-md-6">
-          <div class="form_container">
-            <form action="">
-              <div>
-                <input type="text" class="form-control" placeholder="Your Name" />
-              </div>
-              <div>
-                <input type="text" class="form-control" placeholder="Phone Number" />
-              </div>
-              <div>
-                <input type="email" class="form-control" placeholder="Your Email" />
-              </div>
-              <div>
-                <select class="form-control nice-select wide">
-                  <option value="" disabled selected>
-                    How many persons?
-                  </option>
-                  <option value="">
-                    2
-                  </option>
-                  <option value="">
-                    3
-                  </option>
-                  <option value="">
-                    4
-                  </option>
-                  <option value="">
-                    5
-                  </option>
-                </select>
-              </div>
-              <div>
-                <input type="date" class="form-control">
-              </div>
-              <div class="btn_box">
-                <button>
-                  Book Now
-                </button>
-              </div>
+        <div class="heading_container">
+            <h2>
+                Book A Table
+            </h2>
+        </div>
+        <div class="form_container mb-6">
+            <form action="/booking" method="POST" id="create-form">
+                @csrf
+                <div class="alert-message">
+                    @if ($errors->first())
+                        <div class="alert alert-warning text-center">{{ $errors->first() }}</div>
+                    @endif
+                </div>
+                <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" name="name" class="form-control mb-1" placeholder="Your Name" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="phone" class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control mb-1" placeholder="Phone Number" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control mb-1" placeholder="Your Email" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="persons" class="form-label">Persons</label>
+                            <select name="person" class="form-control mb-1 nice-select wide">
+                                <option disabled selected>
+                                    How many persons?
+                                </option>
+                                <option value="1">
+                                    1
+                                </option>
+                                <option value="2">
+                                    2
+                                </option>
+                                <option value="3">
+                                    3
+                                </option>
+                                <option value="4">
+                                    4
+                                </option>
+                                <option value="5">
+                                    5
+                                </option>
+                                <option value="6">
+                                    6
+                                </option>
+                                <option value="7">
+                                    7
+                                </option>
+                                <option value="8">
+                                    8
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="date" class="form-label">Date</label>
+                            <input type="text" id="datepicker" class="form-control mb-1" name="date" />
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="time" class="form-label">Time</label>
+                            <input type="text" id="timepicker" class="form-control mb-1" name="time">
+                        </div>
+                </div>
+                <div class="btn_box flex justify-content-end">
+                    <button>
+                        Book Now
+                    </button>
+                </div>
             </form>
-          </div>
         </div>
-        <div class="col-md-6">
-          <div class="map_container ">
-            <div id="googleMap"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- end book section -->
+        <div class="row mt-5">
+            <div class="col-md-6">
+                <div class="map_container ">
+                    <div id="googleMap"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="heading_container">
+                    <h2 class="mb-3">
+                        Welcome To Our Restaurant
+                    </h2>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus sit, excepturi debitis fugit optio ut cupiditate qui provident vitae ipsa, nobis minus praesentium maxime deserunt illum eos nemo deleniti vel!
+                    </p>
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus sit, excepturi debitis fugit optio ut cupiditate qui provident vitae ipsa.
+                    </p>
+                </div>
+            </div>
 
+        </div>
+    </div>
+</section>
+<!-- end book section -->
+
+@endsection
+
+@section('script')
+{!! JsValidator::formRequest('App\Http\Requests\StoreBooking', '#create-form') !!}
+<script>
+    $(function() {
+        $('#datepicker').daterangepicker({
+            "singleDatePicker": true,
+            "autoApply": true,
+            "locale": {
+                "format": "YYYY-MM-DD",
+            },
+        }, function(start, end, label) {
+            console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format('YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+        });
+        $('#timepicker').daterangepicker({
+            "singleDatePicker": true,
+            "timePicker": true,
+            "minDate": moment().startOf('day').add(8, 'hours'), // Set the minimum start hour (e.g., 8:00 AM)
+            "maxDate": moment().startOf('day').add(18, 'hours'), // Set the maximum end hour (e.g., 6:00 PM)
+            "timePicker24Hour": true,
+            // "timePickerSeconds": true,
+            "locale": {
+                "format": "HH:mm:ss",
+            },
+        }).on('show.daterangepicker', function(ev, picker) {
+            picker.container.find('.calendar-table').hide()
+        });
+    });
+</script>
 @endsection

@@ -9,7 +9,9 @@ use App\Http\Controllers\backend\CategoryController;
 use App\Http\Controllers\backend\CustomerController;
 use App\Http\Controllers\backend\DiscountController;
 use App\Http\Controllers\backend\AdminUserController;
+use App\Http\Controllers\backend\BookingController;
 use App\Http\Controllers\backend\DashboardController;
+use App\Http\Controllers\backend\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,4 +46,9 @@ Route::middleware('auth:admin_user')->prefix('admin')->group(function () {
 
     Route::resource('payment', PaymentController::class)->only(['index', 'create', 'store', 'edit', 'update', 'destroy']);
     Route::get('payment/data-table/ssd', [PaymentController::class, 'ssd']);
+
+    Route::get('order', [OrderController::class, 'index'])->name('order.index');
+    Route::post('order/complete/{id}', [OrderController::class, 'orderComplete'])->name('order.complete');
+
+    Route::get('booking', [BookingController::class, 'index'])->name('booking.index');
 });

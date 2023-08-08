@@ -178,6 +178,24 @@
             </a>
           </li>
 
+          <li class="nav-item menu-items @if(request()->is('admin/order')) active @endif">
+            <a class="nav-link" href="{{ route('order.index') }}">
+              <span class="menu-icon">
+                <i class="fa-solid fa-cart-shopping"></i>
+              </span>
+              <span class="menu-title">Orders</span>
+            </a>
+          </li>
+
+          <li class="nav-item menu-items @if(request()->is('admin/booking')) active @endif">
+            <a class="nav-link" href="{{ route('booking.index') }}">
+              <span class="menu-icon">
+                <i class="fa-solid fa-utensils"></i>
+              </span>
+              <span class="menu-title">Booking List</span>
+            </a>
+          </li>
+
           <li class="nav-item menu-items @if(request()->is('admin/payment') || request()->is('admin/payment/create') || request()->is('admin/payment/*')) active @endif">
             <a class="nav-link" href="{{ route('payment.index') }}">
               <span class="menu-icon">
@@ -474,6 +492,13 @@
             Toast.fire({
               icon: 'success',
               title: "{{ session('update') }}"
+            })
+          @endif
+
+          @if (session('fail')) 
+            Toast.fire({
+              icon: 'success',
+              title: "{{ session('fail') }}"
             })
           @endif
 

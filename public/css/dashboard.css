@@ -200,4 +200,67 @@ table.dataTable>tbody>tr.child ul.dtr-details>li:last-child {
     height: 80% !important;
 }
 
+/* ------------- Order -------------- */
 
+.order-card, .booking-card {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    cursor: pointer;
+
+}
+
+.order-card .status-icon {
+    display: inline-block;
+    width: 50px;
+    height: 50px;
+    color: #191C24;
+    font-size: 20px;
+    padding: 10px;
+    border: 1px solid #FFBE33;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease;
+}
+
+.order-card .status-icon:hover {
+    color: #FFBE33;
+}
+
+.order-status .paid {
+    cursor: pointer;
+}
+
+
+.order-status {
+    transform: translateY(-110%);
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    right: 0;
+    border-radius: 10px;
+    background-color: #008ee70d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all .3s ease;
+}
+
+.order-card:hover .order-status {
+    transform: translateY(0);
+}
+
+/* ------------ Search Input group ----------- */
+
+.search input {
+    height: 39px;
+    background-color: transparent !important;
+}
+
+.search button, .search button:hover, .search button:focus {
+    height: 40px;
+    line-height: 0 !important;
+}

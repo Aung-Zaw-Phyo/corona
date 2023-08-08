@@ -34,14 +34,14 @@ class CheckoutController extends Controller
         
         // If customer increase count, decrease product's count. | If customer decrease count, increase product's count.
         $product = $order_item->product;
-        if($product->quantity == 0){
-            return [
-                'status' => 404,
-                'message' => $order_item->product->name . " is not enough.",
-                'data' => null
-            ];
-        }
         if($request->status == 'increase') {
+            if($product->quantity == 0 ){
+                return [
+                    'status' => 404,
+                    'message' => $order_item->product->name . " is not enough.",
+                    'data' => $order_item
+                ];
+            }
             $decreaseQty = $request->quantity - $order_item->quantity;
             $product->quantity = $product->quantity - $decreaseQty;
             $product->update();
@@ -65,8 +65,9 @@ class CheckoutController extends Controller
                 'data' => $order_item
             ];
         }else {
-            $order_item->quantity = $request->quantity;
-            $order_item->total_price = (((100 - $order_item->discount_percent) / 100) * $order_item->product->price) * $request->quantity;
+            $order_item->quantity = $request->quantity; 
+            $total_price = (((100 - $order_item->discount_percent) / 100) * $order_item->product->price) * $request->quantity;
+            $order_item->total_price = number_format($total_price, 2, '.', '');
             $order_item->update();
             return [
                 'status' => 200,

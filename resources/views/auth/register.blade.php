@@ -58,7 +58,7 @@
         .overlay {
             position: absolute;
             width: 100%;
-            height: 100vh;
+            min-height: 100vh;
             top: 0;
             bottom: 0;
             left: 0;
@@ -125,7 +125,7 @@
     </div>
 </div>
 <div class="container">
-    <div class="row justify-content-center align-items-center" style="height: 100vh" style="overflow: scroll">
+    <div class="row justify-content-center align-items-center" style="height: 100vh" style="overflow: auto">
         <div class="col-md-8 col-lg-6 py-3">
 
             <div class="card border-0 p-2 px-3 ">

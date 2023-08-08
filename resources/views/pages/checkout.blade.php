@@ -77,6 +77,12 @@
 
     <section class="layout_padding order_section">
         <div class="container">
+            <div class="alert alert-warning alert-dismissible fade show warning-alert text-center d-none" role="alert">
+                <span class="warning-message"></span>
+                {{-- <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button> --}}
+            </div>
             <div class="table-responsive mb-4">
                 <table class="table table-bordered">
                     <thead>
@@ -220,12 +226,22 @@
                 method: 'GET',
                 data: {"order_item_id": order_item_id, "quantity": quantity, "status": 'increase'},
                 success: (res) => {
-                    console.log(res.message)
+                    console.log('### ', res.message)
                     if(res.status == 200) {
                         $n.val(res.data.quantity)
                         $(`#${res.data.id}_item_price`).html(res.data.total_price)
                         $(`#${res.data.id}_item_price`).attr('value', res.data.total_price)
                     }
+
+                    if(res.status == 404) {
+                        $n.val(res.data.quantity)
+                        $(`#${res.data.id}_item_price`).html(res.data.total_price)
+                        $(`#${res.data.id}_item_price`).attr('value', res.data.total_price)
+
+                        $('.warning-message').html(res.message)
+                        let re = $('.warning-alert').removeClass('d-none')
+                    }
+
                     $(this).prop('disabled', false);
                     getTotalPrice()
                 }
