@@ -69,7 +69,7 @@ class ProductController extends Controller
         $order_item->quantity = 1;
         $order_item->discount_percent = $request->discount;
         $total_price = ((100 - $request->discount) / 100) * $request->price;
-        $order_item->total_price = $total_price;
+        $order_item->total_price = number_format($total_price, 2, '.', '');;
         $order_item->save();
 
         $product->quantity = $product->quantity - 1;

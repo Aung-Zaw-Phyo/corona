@@ -51,10 +51,10 @@ class CheckoutController extends Controller
             $product->update();
         }
 
-        if($product->quantity == 0) {
-            $product->status = false;
-            $product->update();
-        }
+        // if($product->quantity == 0) {
+        //     $product->status = false;
+        //     $product->update();
+        // }
 
 
         if($request->quantity == 0) {

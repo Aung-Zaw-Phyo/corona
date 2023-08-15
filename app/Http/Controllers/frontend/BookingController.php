@@ -12,7 +12,7 @@ class BookingController extends Controller
     public function booking (StoreBooking $request) {
         $booking = new BookTable();
         $booking->name = $request->name;
-        $booking->email = $request->name;
+        $booking->email = $request->email;
         $booking->phone = $request->phone;
         $booking->person = $request->person;
         $booking->date = $request->date;

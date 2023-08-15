@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\api\AuthController;
+use App\Http\Controllers\api\BookingController;
 use App\Http\Controllers\api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -25,12 +26,16 @@ Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
 
+Route::post('book-table', [BookingController::class, 'bookTable']);
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('profile', [AuthController::class, 'profile']);
+    Route::post('profile/update', [AuthController::class, 'updateProfile']);
 
     Route::get('product', [ProductController::class, 'menu']);
+    Route::post('add-to-cart', [ProductController::class, 'addToCart']);
+    Route::get('get-cart-data', [ProductController::class, 'getData']);
 
-
-    Route::get('userlist', [AuthController::class, 'userList']);
+    Route::post('create-payment-intent', [ProductController::class, 'createPaymentIntent']);
 });

@@ -28,7 +28,7 @@ class UpdateProfileInfo extends FormRequest
             'name' => 'required',
             'phone' => 'required|min:11|max:14|unique:users,phone,'.$id,
             'email' => 'required|email|unique:users,email,'.$id,
-            'address' => 'required',
+            'address' => 'nullable',
             'password' => 'nullable',
         ];
     }
