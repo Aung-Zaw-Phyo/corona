@@ -6,6 +6,7 @@ use Stripe\Stripe;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Category;
+use App\Models\Discount;
 use App\Models\OrderItem;
 use Stripe\PaymentIntent;
 use Illuminate\Support\Arr;
@@ -13,6 +14,8 @@ use Illuminate\Http\Request;
 use App\Helpers\UUIDGenerate;
 use App\Traits\HttpResponses;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DiscountResource;
+use App\Http\Resources\OrderResource;
 use App\Http\Resources\ProductResource;
 use App\Http\Resources\OrderItemResource;
 use Illuminate\Support\Facades\Validator;
@@ -34,6 +37,13 @@ class ProductController extends Controller
         $products = $products->paginate(8);
         $data = ProductResource::collection($products)->additional(['categories' => $categories, 'status' => true, 'message' => 'Fetched products successfully.']);
         return $data;
+    }
+
+    public function discountMenu()
+    {
+        $discounts = Discount::where('status', true)->get();
+        $discounts = DiscountResource::collection($discounts)->additional(['status' => true, 'message' => 'Fetched discount products successfully.']);
+        return $discounts;
     }
 
     public function getUpdatedOrderItems()
@@ -66,11 +76,12 @@ class ProductController extends Controller
                         $product->quantity = $isAdd ? $product->quantity - 1 : $product->quantity + 1;
                         $product->update();
 
-                        if(!$isAdd && $item['quantity'] == 0){
+                        if (!$isAdd && $item['quantity'] == 0) {
                             $existingItem->delete();
-                        }else {
+                        } else {
                             $existingItem->quantity = $item['quantity'];
-                            $existingItem->total_price = $item['quantity'] * $item['price'];
+                            $existingItem->total_price = $item['amount'];
+                            $existingItem->discount_percent = $item['discount'];
                             $existingItem->update();
                         }
 
@@ -92,6 +103,7 @@ class ProductController extends Controller
                     $newItem->product_id = $item['id'];
                     $newItem->quantity = $item['quantity'];
                     $newItem->total_price = $item['amount'];
+                    $newItem->discount_percent = $item['discount'];
                     $newItem->save();
 
                     $updatedItems = $this->getUpdatedOrderItems();
@@ -137,7 +149,7 @@ class ProductController extends Controller
     }
 
 
-    
+
     public function createPaymentIntent(Request $request)
     {
         try {
@@ -154,13 +166,13 @@ class ProductController extends Controller
             if ($validator->fails()) {
                 return $this->error($validator->errors()->first(), null, 422);
             }
-            
+
             // Initialize Stripe with your secret key
             Stripe::setApiKey(env('STRIPE_SECRET_KEY'));
-    
+
             // Retrieve paymentMethodId from the request
             $paymentMethodId = $request->input('paymentMethodId');
-    
+
             // Create a PaymentIntent to confirm the payment
             $paymentIntent = \Stripe\PaymentIntent::create([
                 'payment_method' => $paymentMethodId,
@@ -170,6 +182,10 @@ class ProductController extends Controller
             ]);
 
             $order_items = OrderItem::with('product', 'user')->where('user_id', auth()->user()->id)->where('status', 'pending')->get();
+
+            if (count($order_items) === 0) {
+                return $this->error('Please add menu to cart before checkout', null, 422);
+            }
 
             $order_no = UUIDGenerate::order_number();
             $order = new Order();
@@ -182,8 +198,8 @@ class ProductController extends Controller
             $order->address = $request->address;
             $order->message = $request->message;
             $order->save();
-    
-            foreach($order_items as $item) {
+
+            foreach ($order_items as $item) {
                 $item->order_id = $order->id;
                 $item->status = 'completed';
                 $item->save();
@@ -191,12 +207,25 @@ class ProductController extends Controller
 
             $order_items = OrderItem::with('product', 'user')->where('user_id', auth()->user()->id)->where('status', 'pending')->get();
             $order_items = OrderItemResource::collection($order_items);
-    
+
             // Handle success or failure response here and return appropriate JSON response
-            return $this->success('Payment confirmed successfully', ['items' => $order_items], 200);
+            return $this->success('Payment charged successfully', ['items' => $order_items], 200);
         } catch (\Exception $e) {
             // Handle error and return appropriate JSON response
             return $this->error($e->getMessage(), null, 500);
+        }
+    }
+
+
+    public function order()
+    {
+        try {
+            $orders = Order::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC');
+            $orders = $orders->paginate(6);
+            $data = OrderResource::collection($orders)->additional(['orders' => $orders, 'status' => true, 'message' => 'Fetched orders successfully.']);
+            return $data;
+        } catch (\Throwable $th) {
+            return $this->error($th->getMessage(), null, 500);
         }
     }
 }

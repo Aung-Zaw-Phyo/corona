@@ -2,9 +2,11 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Ramsey\Uuid\Type\Integer;
 
-class OrderItemResource extends JsonResource
+class OrderResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,13 +19,12 @@ class OrderItemResource extends JsonResource
         return [
             'id' => $this->id,
             'order_no' => $this->order_no,
-            'user' => new ProfileResource($this->user),
-            'product' => new DiscountProductResource($this->product),
-            'quantity' => number_format($this->quantity),
-            'total_price' => number_format($this->total_price, 2, '.', ''),
-            'discount_percent' => number_format($this->discount_percent),
+            'name' => $this->name,
+            'phone' => $this->phone,
+            'address' => $this->address,
+            'message' => $this->message,
             'status' => $this->status,
-            'created_at' => $this->created_at,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
         ];
     }
 }

@@ -126,19 +126,24 @@
             </div>
 
             <div class="form_container">
+                <div class="alert-message">
+                    @if ($errors->first())
+                        <div class="alert alert-warning">{{ $errors->first() }}</div>
+                    @endif
+                </div>
                 <form action="{{ route('pages.checkout.checkout') }}" method="POST" id="checkout-form">
                     @csrf
                     <div class="mb-3">
-                        <input type="text" name="name" class="form-control" placeholder="Your Name" value="" />
+                        <input type="text" name="name" class="form-control" placeholder="Your Name" value="{{ old('name') }}" />
                     </div>
                     <div class="mb-3">
-                        <input type="text" name="phone" class="form-control" placeholder="Phone Number" value=''/>
+                        <input type="text" name="phone" class="form-control" placeholder="Phone Number" value='{{ old('phone') }}'/>
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" name="address" id="" cols="30" rows="10" placeholder="Enter address"></textarea>
+                        <textarea class="form-control" name="address" id="" cols="30" rows="10" placeholder="Enter address">{{ old('address') }}</textarea>
                     </div>
                     <div class="mb-3">
-                        <textarea class="form-control" name="message" id="" cols="30" rows="10" placeholder="Enter message"></textarea>
+                        <textarea class="form-control" name="message" id="" cols="30" rows="10" placeholder="Enter message">{{ old('message') }}</textarea>
                     </div>
                     <div class="btn_box d-flex justify-content-end">
                         <button type="submit">

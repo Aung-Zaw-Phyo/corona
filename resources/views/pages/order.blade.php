@@ -52,8 +52,12 @@
                 </div>
             </div>
             @endforeach
-        </div>
 
+        </div>
+        
+        <div class="d-flex justify-content-center py-3">
+            {{  $orders->links() }}
+        </div>
     </div>
 </section>
 <!-- end book section -->

@@ -2,9 +2,10 @@
 
 namespace App\Http\Resources;
 
+use Carbon\Carbon;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProductResource extends JsonResource
+class DiscountResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,16 +15,16 @@ class ProductResource extends JsonResource
      */
     public function toArray($request)
     {
-        $discount = collect($this->discounts->pluck('percent'))->max();
         return [
             'id' => $this->id,
-            'category_id' => $this->category_id,    
             'name' => $this->name,
-            'price' => number_format($this->price, 2, '.', ''),
-            'quantity' => number_format($this->quantity),
-            'image' => $this->image_path(),
             'description' => $this->description,
-            'discount' => $discount ? number_format($discount) : 0
+            'start_date' => $this->start_date,
+            'end_date' => $this->end_date,
+            'percent' => $this->percent,
+            'created_at' => Carbon::parse($this->created_at)->format('Y-m-d H:i:s'),
+            'products' => DiscountProductResource::collection($this->products)
+
         ];
     }
 }

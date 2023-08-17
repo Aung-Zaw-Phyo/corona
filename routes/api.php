@@ -28,14 +28,17 @@ Route::post('login', [AuthController::class, 'login']);
 
 Route::post('book-table', [BookingController::class, 'bookTable']);
 
+Route::get('discount-product', [ProductController::class, 'discountMenu']);
+Route::get('product', [ProductController::class, 'menu']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [AuthController::class, 'logout']);
     Route::get('profile', [AuthController::class, 'profile']);
     Route::post('profile/update', [AuthController::class, 'updateProfile']);
 
-    Route::get('product', [ProductController::class, 'menu']);
     Route::post('add-to-cart', [ProductController::class, 'addToCart']);
     Route::get('get-cart-data', [ProductController::class, 'getData']);
 
     Route::post('create-payment-intent', [ProductController::class, 'createPaymentIntent']);
+
+    Route::get('order', [ProductController::class, 'order']);
 });

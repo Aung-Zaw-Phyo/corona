@@ -114,7 +114,7 @@ class ProductController extends Controller
 
     public function order()
     {
-        $orders = Order::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->get();
+        $orders = Order::where('user_id', auth()->user()->id)->orderBy('created_at', 'DESC')->paginate(6);
         return view('pages.order', compact('orders'));
     }
 }

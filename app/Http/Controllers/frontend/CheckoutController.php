@@ -82,6 +82,11 @@ class CheckoutController extends Controller
         $stripe = new StripeClient(env('STRIPE_SECRET_KEY'));
 
         $order_items = OrderItem::with('product')->where('user_id', auth()->user()->id)->where('status', 'pending')->get();
+
+        if(count($order_items) === 0){
+            return redirect()->back()->withErrors(['items' => 'Cart is empty. Go Shopping!'])->withInput();
+        }
+
         // return $order_items;
         $line_items = [];
         $total_price = 0 ;
@@ -162,6 +167,10 @@ class CheckoutController extends Controller
     }
 
     public function cancel () {
+        $order = Order::where('user_id', auth()->user()->id)->where('status', 'unpaid')->orderBy('created_at', 'DESC')->first();
+        if($order) {
+            $order->delete();
+        }
         return redirect()->route('pages.checkout.index');
     }
 
